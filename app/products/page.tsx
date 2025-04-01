@@ -53,7 +53,13 @@ const initialProducts: Product[] = [
     name: "Babroo",
     category: "Robotics Kits",
     price: 8000,
-    image: "https://picsum.photos/seed/babroo/400/300",
+    image: "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/b2.png",
+    galleryImages: [
+      "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/b3.png",
+      "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/b2.png",
+      "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/b0.png",
+    ],
+
     description:
       "Newrro Babroo is a smart robotics learning kit for students and educators featuring AI-powered control with obstacle detection, line following, and voice commands.",
     features: [
@@ -66,14 +72,20 @@ const initialProducts: Product[] = [
     badge: "New",
     view360Link: "/assets/product_models/Babru.glb",
     // If needed, add rotationOffset: [x, y, z] e.g. [0, Math.PI/2, 0]
-    rotationOffset: [0.5, 4.2, 0],
+    rotationOffset: [0, 4.2, 0],
   },
   {
     id: 3,
     name: "Kush",
     category: "Educational Robotics",
     price: 5000,
-    image: "https://picsum.photos/seed/kush/400/300",
+    image: "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/k1.png",
+    galleryImages: [
+      "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/k2.png",
+      "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/k3.png",
+      "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/k4.png",
+    ],
+    
     description:
       "Newrro Kush is a beginner-friendly robotics kit for kids and students. It offers obstacle avoidance, line following, an interactive display, and an easy-to-use programming library.",
     features: [

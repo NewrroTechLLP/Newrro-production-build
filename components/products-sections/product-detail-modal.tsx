@@ -39,7 +39,7 @@ function GLBModel({ glbUrl, rotationOffset = [0, Math.PI, 0] }: GLBModelProps) {
   );
 }
 
-// Product interface with optional view360Link and rotationOffset.
+// Product interface with optional view360Link, rotationOffset, and galleryImages.
 interface Product {
   id: number;
   name: string;
@@ -51,6 +51,7 @@ interface Product {
   badge?: string;
   view360Link?: string;
   rotationOffset?: [number, number, number];
+  galleryImages?: string[]; // Add this line
 }
 
 export interface ProductDetailModalProps {
@@ -345,7 +346,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                 onClick={toggle360View}
               >
                 <RotateCw className={cn("w-4 h-4", view360Active && "animate-spin")} />
-                {view360Active ? "Exit 360°" : "View 360°"}
+                {view360Active ? "Exit 360°" : "View 360° (Recommended)"}
               </motion.button>
               <div className={cn("grid grid-cols-4 gap-2 flex-1", view360Active && "opacity-50 pointer-events-none")}>
                 {productImages.map((img, idx) => (
