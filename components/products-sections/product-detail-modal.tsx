@@ -72,17 +72,19 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
   const [startX, setStartX] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const productImages = [
+  const productImages = product.galleryImages 
+  ? [product.image, ...product.galleryImages]
+  :[
     product.image,
-    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=400",
-    "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?auto=format&fit=crop&q=80&w=400",
-    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&q=80&w=400",
+    "https://www.newrro.in/favicon.svg",
+    "https://www.newrro.in/favicon.svg",
+    "https://www.newrro.in/favicon.svg",
   ];
 
   const view360Images = [
-    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=400",
-    "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?auto=format&fit=crop&q=80&w=400",
-    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&q=80&w=400",
+    "https://www.newrro.in/favicon.svg",
+    "https://www.newrro.in/favicon.svg",
+    "https://www.newrro.in/favicon.svg",
     product.image,
   ];
 

@@ -19,6 +19,8 @@ export interface Product {
   badge?: string;
   view360Link?: string; // URL to dedicated 360° view (iframe embed or GLB file)
   rotationOffset?: [number, number, number]; // Optional: [x, y, z] in radians for model adjustment
+  galleryImages?: string[]; // New optional property
+  
 }
 
 const initialProducts: Product[] = [
@@ -27,7 +29,12 @@ const initialProducts: Product[] = [
     name: "Arjuna Edu Kit",
     category: "Educational Robotics",
     price: 15000,
-    image: "https://picsum.photos/seed/arjuna/400/300",
+    image: "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/work_gallery/R11.png?raw=true",
+    galleryImages: [
+      "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/work_gallery/R2.png?raw=true",
+      "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/work_gallery/R3.png?raw=true",
+      "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/work_gallery/R6.png?raw=true",
+    ],
     description:
       "Elevate Robotics Learning with ARJUNA! The Newrro ARJUNA Edu Kit is a high-performance ROS-based Autonomous Mobile Robot designed for research, AI development, and autonomous navigation.",
     features: [
