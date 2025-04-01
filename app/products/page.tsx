@@ -1,187 +1,168 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { HeroSection } from "@/components/products-sections/hero-section"
-import { BenefitsSection } from "@/components/products-sections/benefits-section"
-import { FiltersSearchSection } from "@/components/products-sections/filters-search-section"
-import { ProductGrid } from "@/components/products-sections/product-grid"
-import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUp } from "lucide-react"
+import { useState, useEffect } from "react";
+import { HeroSection } from "@/components/products-sections/hero-section";
+import { BenefitsSection } from "@/components/products-sections/benefits-section";
+import { FiltersSearchSection } from "@/components/products-sections/filters-search-section";
+import { ProductGrid } from "@/components/products-sections/product-grid";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
 
-interface Product {
-  id: number
-  name: string
-  category: string
-  price: number
-  image: string
-  description: string
-  features: string[]
-  badge?: string
+export interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  image: string;
+  description: string;
+  features: string[];
+  badge?: string;
+  view360Link?: string; // URL to dedicated 360° view (iframe embed or GLB file)
+  rotationOffset?: [number, number, number]; // Optional: [x, y, z] in radians for model adjustment
 }
 
 const initialProducts: Product[] = [
   {
     id: 1,
-    name: "Enterprise Suite Pro",
-    category: "Business Solutions",
-    price: 1299.99,
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400",
-    description: "Complete business management solution with advanced analytics",
-    features: ["Cloud Integration", "Real-time Analytics", "24/7 Support"],
+    name: "Arjuna Edu Kit",
+    category: "Educational Robotics",
+    price: 15000,
+    image: "https://picsum.photos/seed/arjuna/400/300",
+    description:
+      "Elevate Robotics Learning with ARJUNA! The Newrro ARJUNA Edu Kit is a high-performance ROS-based Autonomous Mobile Robot designed for research, AI development, and autonomous navigation.",
+    features: [
+      "NVIDIA Jetson Nano 4GB",
+      "ROS-Based Platform",
+      "4K 3D Camera",
+      "Water & Dustproof LiDAR Sensor",
+      "Dual-Band WiFi",
+    ],
     badge: "Best Seller",
+    // No dedicated 360° view.
   },
   {
     id: 2,
-    name: "SmartHome Hub",
-    category: "IoT Devices",
-    price: 299.99,
-    image:
-      "https://images.unsplash.com/photo-1558089687-f282ffcbc126?auto=format&fit=crop&q=80&w=400",
-    description: "Central control for all your smart home devices",
-    features: ["Voice Control", "Energy Monitoring", "Mobile App"],
+    name: "Babroo",
+    category: "Robotics Kits",
+    price: 8000,
+    image: "https://picsum.photos/seed/babroo/400/300",
+    description:
+      "Newrro Babroo is a smart robotics learning kit for students and educators featuring AI-powered control with obstacle detection, line following, and voice commands.",
+    features: [
+      "Plug-and-Play Setup",
+      "Smart Robot Controller",
+      "WiFi & Bluetooth Control",
+      "Obstacle Avoidance & Line Following",
+      "Voice & Color Recognition",
+    ],
     badge: "New",
+    view360Link: "/assets/product_models/Babru.glb",
+    // If needed, add rotationOffset: [x, y, z] e.g. [0, Math.PI/2, 0]
+    rotationOffset: [0.5, 4.2, 0],
   },
   {
     id: 3,
-    name: "SecureVault Pro",
-    category: "Security",
-    price: 499.99,
-    image:
-      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=400",
+    name: "Kush",
+    category: "Educational Robotics",
+    price: 5000,
+    image: "https://picsum.photos/seed/kush/400/300",
     description:
-      "Enterprise-grade security solution with advanced encryption",
-    features: ["Biometric Auth", "Cloud Backup", "Audit Logs"],
-    badge: "Featured",
+      "Newrro Kush is a beginner-friendly robotics kit for kids and students. It offers obstacle avoidance, line following, an interactive display, and an easy-to-use programming library.",
+    features: [
+      "Beginner-Friendly Design",
+      "Preloaded Robotics Library",
+      "WiFi & Bluetooth Control",
+      "Obstacle Avoidance & Line Following",
+      "Custom PCB for Expansion",
+    ],
+    badge: "Top Rated",
+    view360Link: "/assets/product_models/KH-1.glb",
+    rotationOffset: [0, 0, 0], // Adjust this offset based on your model
   },
   {
     id: 4,
-    name: "AI Analytics Platform",
-    category: "Analytics",
-    price: 899.99,
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400",
+    name: "JT-2",
+    category: "Autonomous Robots",
+    price: 12000,
+    image: "https://picsum.photos/seed/jt2/400/300",
     description:
-      "Advanced analytics powered by artificial intelligence",
-    features: ["Predictive Analysis", "Custom Reports", "API Access"],
+      "Newrro JT-2 is a ROS 2-based autonomous mobile robot for research and learning. It features voice & WiFi control, smart motor controllers, and modular expandability.",
+    features: [
+      "ROS 2 Optimized",
+      "Multi-Goal Navigation",
+      "Voice & Wireless Operation",
+      "Real-Time Monitoring",
+      "Modular Expandability",
+    ],
+    badge: "Enterprise",
+    view360Link: "/assets/product_models/jt2.glb",
+    rotationOffset: [0, Math.PI, 0], // Default offset; adjust as needed
   },
   {
     id: 5,
-    name: "CloudSync Enterprise",
-    category: "Cloud Services",
-    price: 699.99,
-    image:
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=400",
+    name: "Robotics Learning Kit (ESP32)",
+    category: "Educational Robotics",
+    price: 7000,
+    image: "https://picsum.photos/seed/esp32/400/300",
     description:
-      "Seamless cloud integration and synchronization solution",
-    features: ["Auto Backup", "File Versioning", "Team Sharing"],
-    badge: "Popular",
+      "Newrro Robotics Learning Kit powered by an advanced ESP32 robot controller. It offers wireless connectivity, a modular design, and AI-powered features for STEM education.",
+    features: [
+      "ESP32 Controller",
+      "WiFi & Bluetooth Connectivity",
+      "Motor Driver with 1.2A",
+      "Built-in Safety Fuse",
+      "Modular & Expandable Design",
+    ],
+    // No dedicated 360° view.
   },
-  {
-    id: 6,
-    name: "DevOps Toolkit",
-    category: "Development",
-    price: 799.99,
-    image:
-      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=400",
-    description:
-      "Complete suite of development and operations tools",
-    features: ["CI/CD Pipeline", "Monitoring", "Container Support"],
-  },
-  {
-    id: 7,
-    name: "Premium Wireless Headphones",
-    category: "Audio Devices",
-    price: 299.99,
-    image:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=400",
-    description:
-      "Experience crystal clear audio with our premium wireless headphones",
-    features: ["Noise Cancellation", "30-hour Battery", "Premium Comfort"],
-    badge: "Top Rated",
-  },
-  {
-    id: 8,
-    name: "Data Visualization Pro",
-    category: "Analytics",
-    price: 599.99,
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400",
-    description:
-      "Turn complex data into intuitive visual insights",
-    features: ["Interactive Charts", "Real-time Updates", "Export Options"],
-  },
-  {
-    id: 9,
-    name: "Network Security Gateway",
-    category: "Security",
-    price: 1499.99,
-    image:
-      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=400",
-    description:
-      "Enterprise-grade network security solution with advanced threat protection",
-    features: ["Firewall Protection", "Threat Detection", "VPN Support"],
-    badge: "Enterprise",
-  },
-]
+];
 
 export default function ProductsPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [filteredProducts, setFilteredProducts] = useState(initialProducts)
-  const [isLoading, setIsLoading] = useState(true)
-  const [showScrollTop, setShowScrollTop] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(initialProducts);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     // Simulate loading state
     const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 500)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
+      setIsLoading(false);
+    }, 1000);
+    const handleScroll = () => setShowScrollTop(window.scrollY > 500);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      clearTimeout(timer)
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [])
+      clearTimeout(timer);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleSearchChange = (value: string) => {
-    setSearchQuery(value)
-    const query = value.toLowerCase()
+    setSearchQuery(value);
+    const query = value.toLowerCase();
     const filtered = initialProducts.filter(
       (product) =>
         product.name.toLowerCase().includes(query) ||
         product.category.toLowerCase().includes(query) ||
-        product.description.toLowerCase().includes(query),
-    )
-    setFilteredProducts(filtered)
-  }
+        product.description.toLowerCase().includes(query)
+    );
+    setFilteredProducts(filtered);
+  };
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    })
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="min-h-screen bg-white">
       <HeroSection />
-
       <FiltersSearchSection
         onSearchChange={handleSearchChange}
         onFilter={() => console.log("Filter clicked")}
         onSort={() => console.log("Sort clicked")}
       />
-
       <div className="container mx-auto px-4 pb-16">
         <AnimatePresence mode="wait">
           {isLoading ? (
-            // Loading skeleton
             <motion.div
               key="loading"
               initial={{ opacity: 0 }}
@@ -209,20 +190,10 @@ export default function ProductsPage() {
               ))}
             </motion.div>
           ) : (
-            <motion.div
-              key="content"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
+            <motion.div key="content" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <ProductGrid products={filteredProducts} />
-
               {filteredProducts.length === 0 && (
-                <motion.div
-                  className="text-center py-16"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                >
+                <motion.div className="text-center py-16" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
                   <h3 className="text-2xl font-semibold mb-2">No products found</h3>
                   <p className="text-gray-500">
                     Try adjusting your search or filters to find what you&apos;re looking for.
@@ -233,12 +204,9 @@ export default function ProductsPage() {
           )}
         </AnimatePresence>
       </div>
-
       <div className="py-12">
         <BenefitsSection />
       </div>
-
-      {/* Scroll to top button */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.button
@@ -253,5 +221,5 @@ export default function ProductsPage() {
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }

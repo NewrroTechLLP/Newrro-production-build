@@ -1,55 +1,47 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ProductDetailModal } from "./product-detail-modal"
-import { ShoppingCart, Heart, Eye } from "lucide-react"
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ProductDetailModal } from "./product-detail-modal";
+import { ShoppingCart, Heart, Eye } from "lucide-react";
 
-interface Product {
-  id: number
-  name: string
-  category: string
-  price: number
-  image: string
-  description: string
-  features: string[]
-  badge?: string
+export interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  image: string;
+  description: string;
+  features: string[];
+  badge?: string;
+  view360Link?: string;
+  rotationOffset?: [number, number, number];
 }
 
 interface ProductGridProps {
-  products: Product[]
+  products: Product[];
 }
 
 export function ProductGrid({ products }: ProductGridProps) {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
-  const [hoveredProduct, setHoveredProduct] = useState<number | null>(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
 
   const container = {
     hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
 
   const item = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
-  }
+  };
 
   return (
     <>
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
+      <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" variants={container} initial="hidden" animate="show">
         {products.map((product) => (
           <motion.div
             key={product.id}
@@ -71,8 +63,6 @@ export function ProductGrid({ products }: ProductGridProps) {
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
                   />
-
-                  {/* Quick action buttons */}
                   <motion.div
                     className="absolute inset-0 bg-black/40 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     initial={{ opacity: 0 }}
@@ -83,8 +73,8 @@ export function ProductGrid({ products }: ProductGridProps) {
                       whileHover={{ scale: 1.1, backgroundColor: "#df5bd3", color: "white" }}
                       whileTap={{ scale: 0.9 }}
                       onClick={(e) => {
-                        e.stopPropagation()
-                        setSelectedProduct(product)
+                        e.stopPropagation();
+                        setSelectedProduct(product);
                       }}
                     >
                       <Eye className="h-5 w-5" />
@@ -106,7 +96,6 @@ export function ProductGrid({ products }: ProductGridProps) {
                       <Heart className="h-5 w-5" />
                     </motion.button>
                   </motion.div>
-
                   {product.badge && <Badge className="absolute top-4 left-4 bg-primary">{product.badge}</Badge>}
                 </div>
               </CardHeader>
@@ -141,8 +130,8 @@ export function ProductGrid({ products }: ProductGridProps) {
                 <Button
                   className="w-full bg-white text-primary hover:bg-primary hover:text-white border border-primary transition-all duration-300"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    setSelectedProduct(product)
+                    e.stopPropagation();
+                    setSelectedProduct(product);
                   }}
                 >
                   View Details
@@ -153,11 +142,11 @@ export function ProductGrid({ products }: ProductGridProps) {
         ))}
       </motion.div>
 
-      {/* Product Detail Modal */}
       <AnimatePresence>
-        {selectedProduct && <ProductDetailModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
+        {selectedProduct && (
+          <ProductDetailModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+        )}
       </AnimatePresence>
     </>
-  )
+  );
 }
-

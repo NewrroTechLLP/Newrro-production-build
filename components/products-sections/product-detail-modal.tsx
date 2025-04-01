@@ -1,6 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
+import * as THREE from "three";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Html, useGLTF, Bounds, Environment } from "@react-three/drei";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -17,6 +20,26 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Toggle for 360° viewer: false = use GLB model
+const useIframeFor360 = false;
+
+// GLBModel Component – now accepts a rotationOffset.
+interface GLBModelProps {
+  glbUrl: string;
+  rotationOffset?: [number, number, number];
+}
+function GLBModel({ glbUrl, rotationOffset = [0, Math.PI, 0] }: GLBModelProps) {
+  const { scene } = useGLTF(glbUrl);
+  // Apply per-model rotation offset.
+  scene.rotation.set(...rotationOffset);
+  return (
+    <Bounds fit clip margin={1.0}>
+      <primitive object={scene} />
+    </Bounds>
+  );
+}
+
+// Product interface with optional view360Link and rotationOffset.
 interface Product {
   id: number;
   name: string;
@@ -26,6 +49,8 @@ interface Product {
   description: string;
   features: string[];
   badge?: string;
+  view360Link?: string;
+  rotationOffset?: [number, number, number];
 }
 
 export interface ProductDetailModalProps {
@@ -33,11 +58,7 @@ export interface ProductDetailModalProps {
   onClose: () => void;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                    Inner Component – Guaranteed Non‑Null                   */
-/* -------------------------------------------------------------------------- */
 function ProductDetailModalContent({ product, onClose }: { product: Product; onClose: () => void; }) {
-  // All hooks are called unconditionally here.
   const [selectedColor, setSelectedColor] = useState("shadow");
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -51,7 +72,6 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
   const [startX, setStartX] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Define image arrays – product is non‑null here.
   const productImages = [
     product.image,
     "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=400",
@@ -66,7 +86,6 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
     product.image,
   ];
 
-  // Close modal on Escape key press.
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -75,10 +94,9 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
     return () => window.removeEventListener("keydown", handleEsc);
   }, [onClose]);
 
-  // Auto-rotate in 360° mode.
   useEffect(() => {
     let animationId: number;
-    if (view360Active) {
+    if (view360Active && !product.view360Link) {
       const autoRotate = () => {
         setRotationAngle((prev) => (prev + 0.5) % 360);
         animationId = requestAnimationFrame(autoRotate);
@@ -91,9 +109,8 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
         cancelAnimationFrame(animationId);
       };
     }
-  }, [view360Active]);
+  }, [view360Active, product.view360Link]);
 
-  // Handlers for 360° dragging.
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!view360Active) return;
     setIsDragging(true);
@@ -136,7 +153,6 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
 
   const discountPrice = (product.price * 0.87).toFixed(2);
 
-  // Simulate adding to cart.
   const handleAddToCart = () => {
     setIsAddingToCart(true);
     setTimeout(() => {
@@ -164,7 +180,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
           )}
           initial={{ scale: 0.95, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.95, opacity: 0, y: 20 }}
+          exit={{ scale: 0.95, opacity: 0, y: 0 }}
           transition={{ type: "spring", damping: 30, stiffness: 400 }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -179,7 +195,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
             <X className="w-5 h-5 text-foreground" />
           </motion.button>
 
-          {/* LEFT COLUMN: Images */}
+          {/* LEFT COLUMN: 360° Viewer / Images */}
           <div className="p-6 sm:p-8 flex flex-col gap-6">
             <div
               ref={containerRef}
@@ -204,23 +220,79 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                   {product.badge}
                 </motion.div>
               )}
-              <motion.div
-                className="relative w-full h-full"
-                animate={{ scale: isZoomed && !view360Active ? 1.3 : 1 }}
-                transition={{ type: "spring", damping: 30 }}
-              >
-                <motion.img
-                  src={view360Active ? get360Image() : productImages[selectedImage]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.4 }}
-                  onClick={() => !view360Active && setIsZoomed((prev) => !prev)}
-                  style={{ pointerEvents: view360Active ? "none" : "auto" }}
-                />
-              </motion.div>
-              {view360Active && (
+
+              {view360Active && product.view360Link ? (
+                <div className="absolute inset-0">
+                  {useIframeFor360 ? (
+                    <iframe
+                      src={product.view360Link}
+                      title="360° Viewer"
+                      width="100%"
+                      height="100%"
+                      frameBorder="0"
+                      allow="web-share; xr-spatial-tracking"
+                      loading="lazy"
+                      scrolling="no"
+                      referrerPolicy="origin-when-cross-origin"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <div style={{ width: "100%", height: "100%" }}>
+                      <Canvas
+                        camera={{ position: [0, 0.5, 3.5], fov: 40 }}
+                        gl={{
+                          preserveDrawingBuffer: true,
+                          antialias: true,
+                        }}
+                        onCreated={({ gl }) => {
+                          gl.outputColorSpace = "srgb"; // Updated to use outputColorSpace
+                        }}
+                      >
+                        <color attach="background" args={["#f0f0f0"]} />
+                        <Environment preset="studio" />
+                        <hemisphereLight intensity={1.0} color="#ffffff" groundColor="#444444" />
+                        <directionalLight
+                          intensity={1.4}
+                          position={[2, 4, 5]}
+                          castShadow
+                          shadow-camera-far={10}
+                          shadow-camera-left={-4}
+                          shadow-camera-right={4}
+                          shadow-camera-top={4}
+                          shadow-camera-bottom={-4}
+                        />
+                        <pointLight intensity={1.0} position={[2, 2, 2]} />
+                        <Suspense fallback={<Html center><div>Loading 3D model...</div></Html>}>
+                          <GLBModel
+                            glbUrl={product.view360Link}
+                            rotationOffset={product.rotationOffset || [0, Math.PI, 0]}
+                          />
+                          <OrbitControls enablePan={false} enableZoom={true} enableRotate={true} />
+                        </Suspense>
+                      </Canvas>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <motion.div
+                  className="relative w-full h-full"
+                  animate={{ scale: isZoomed && !view360Active ? 1.3 : 1 }}
+                  transition={{ type: "spring", damping: 30 }}
+                >
+                  <motion.img
+                    src={view360Active ? get360Image() : productImages[selectedImage]}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4 }}
+                    onClick={() => !view360Active && setIsZoomed((prev) => !prev)}
+                    style={{ pointerEvents: view360Active ? "none" : "auto" }}
+                  />
+                </motion.div>
+              )}
+
+              {view360Active && !product.view360Link && (
                 <motion.div
                   className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-white bg-foreground/60 backdrop-blur-sm flex items-center gap-2"
                   initial={{ opacity: 0, y: 20 }}
@@ -230,6 +302,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                   <span className="text-xs font-medium">Drag to explore</span>
                 </motion.div>
               )}
+
               {!view360Active && (
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3">
                   {[ChevronLeft, ChevronRight].map((Icon, idx) => (
@@ -353,9 +426,8 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                {product.description} Experience crystal clear audio with our premium
-                wireless headphones. Featuring active noise cancellation, 30-hour battery
-                life, and premium comfort for extended listening sessions.
+                {product.description} Experience crystal clear audio with our premium wireless headphones.
+                Featuring active noise cancellation, 30-hour battery life, and premium comfort for extended listening sessions.
               </motion.p>
             </div>
 
@@ -385,15 +457,11 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                       whileHover={{ scale: 1.1, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      {selectedColor === c.name && (
-                        <Check className="w-4 h-4 text-white" />
-                      )}
+                      {selectedColor === c.name && <Check className="w-4 h-4 text-white" />}
                     </motion.div>
                   ))}
                 </div>
-                <p className="text-xs font-medium text-foreground">
-                  Selected: {selectedColor}
-                </p>
+                <p className="text-xs font-medium text-foreground">Selected: {selectedColor}</p>
               </motion.div>
 
               <motion.div
@@ -401,9 +469,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
               >
-                <h3 className="font-semibold text-sm sm:text-base text-foreground">
-                  Quantity
-                </h3>
+                <h3 className="font-semibold text-sm sm:text-base text-foreground">Quantity</h3>
                 <div className="flex items-center border border-foreground/20 rounded-xl w-fit overflow-hidden shadow-sm">
                   <motion.button
                     className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-white/10 text-foreground"
@@ -522,12 +588,8 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                   <Heart
                     className="w-5 h-5 transition-colors"
                     style={{
-                      color: wishlist
-                        ? "rgb(var(--accent-pink-rgb))"
-                        : "rgb(var(--foreground-rgb))",
-                      fill: wishlist
-                        ? "rgb(var(--accent-pink-rgb))"
-                        : "black",
+                      color: wishlist ? "rgb(var(--accent-pink-rgb))" : "rgb(var(--foreground-rgb))",
+                      fill: wishlist ? "rgb(var(--accent-pink-rgb))" : "black",
                     }}
                   />
                 </motion.div>
@@ -540,9 +602,6 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*                     Outer Wrapper Component                              */
-/* -------------------------------------------------------------------------- */
 export function ProductDetailModal({ product, onClose }: ProductDetailModalProps) {
   if (!product) return null;
   return <ProductDetailModalContent product={product} onClose={onClose} />;
