@@ -38,7 +38,8 @@ const initialProducts: Product[] = [
       "Dual-Band WiFi",
     ],
     badge: "Best Seller",
-    // No dedicated 360° view.
+    view360Link: "/assets/product_models/Arjuna.glb",
+
   },
   {
     id: 2,
