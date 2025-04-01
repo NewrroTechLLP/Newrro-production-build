@@ -336,18 +336,21 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <motion.button
-                className={cn(
-                  "flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-white/20",
-                  view360Active ? "bg-primary/10 text-primary" : "bg-white/10 text-foreground"
-                )}
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={toggle360View}
-              >
-                <RotateCw className={cn("w-4 h-4", view360Active && "animate-spin")} />
-                {view360Active ? "Exit 360°" : "View 360° (Recommended)"}
-              </motion.button>
+            <motion.button
+              className={cn(
+                "flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 shadow-lg",
+                view360Active 
+                  ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white" 
+                  : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
+              )}
+              whileHover={{ scale: 1.05, y: -3, boxShadow: "0px 10px 20px rgba(0,0,0,0.2)" }}
+              whileTap={{ scale: 0.95 }}
+              onClick={toggle360View}
+            >
+              <RotateCw className={cn("w-5 h-5", view360Active && "animate-spin")} />
+              {view360Active ? "Exit 360°" : "View 360° (Recommended)"}
+            </motion.button>
+
               <div className={cn("grid grid-cols-4 gap-2 flex-1", view360Active && "opacity-50 pointer-events-none")}>
                 {productImages.map((img, idx) => (
                   <motion.div
