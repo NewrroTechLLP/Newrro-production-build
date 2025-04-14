@@ -115,7 +115,7 @@ const initialProducts: Product[] = [
       "Modular Expandability",
     ],
     badge: "Enterprise",
-    view360Link: "/assets/product_models/jt2.glb",
+    view360Link: "/assets/product_models/nrc_mini.glb",
     rotationOffset: [0, Math.PI, 0], // Default offset; adjust as needed
   },
   {
@@ -133,7 +133,8 @@ const initialProducts: Product[] = [
       "Built-in Safety Fuse",
       "Modular & Expandable Design",
     ],
-    // No dedicated 360° view.
+    view360Link: "/assets/product_models/BRC.glb",
+    rotationOffset: [0, Math.PI, 0],
   },
 ];
 
