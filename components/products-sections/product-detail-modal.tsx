@@ -23,6 +23,9 @@ import { cn } from "@/lib/utils";
 // Toggle for 360° viewer: false = use GLB model
 const useIframeFor360 = false;
 
+// WhatsApp Link for temporary cart functionality
+const WHATSAPP_LINK = "https://api.whatsapp.com/send?phone=919353731063&text=Hi%20NEWRRO%20Tech%2C%0AI%E2%80%99m%20interested%20in%20exploring%20your%20robotics%20products%20and%20services.%20Could%20you%20help%20me%20understand%20how%20they%20can%20be%20tailored%20to%20suit%20my%20requirements%3F%0A%0AThank%20you%2C%0A%5BYour%20Name%5D";
+
 // GLBModel Component – now accepts a rotationOffset.
 interface GLBModelProps {
   glbUrl: string;
@@ -156,13 +159,34 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
 
   const discountPrice = (product.price * 0.87).toFixed(2);
 
+  // Function to create WhatsApp order message
+  const createWhatsAppOrderMessage = (isBuyNow = false) => {
+    const action = isBuyNow ? "Buy Now" : "Add to Cart";
+    const message = `Hi! I'm interested in ordering: ${product.name} (${selectedColor}) x${quantity} - $${discountPrice} each. Please assist me with my ${action} request.`;
+    return encodeURIComponent(message);
+  };
+
+  // Function to navigate to WhatsApp with order message
+  const navigateToWhatsApp = (isBuyNow = false) => {
+    const message = createWhatsAppOrderMessage(isBuyNow);
+    const whatsappUrl = `${WHATSAPP_LINK}&text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const handleAddToCart = () => {
     setIsAddingToCart(true);
     setTimeout(() => {
       setIsAddingToCart(false);
       setShowAddedMessage(true);
-      setTimeout(() => setShowAddedMessage(false), 3000);
+      setTimeout(() => {
+        setShowAddedMessage(false);
+        navigateToWhatsApp(false);
+      }, 1000);
     }, 1000);
+  };
+
+  const handleBuyNow = () => {
+    navigateToWhatsApp(true);
   };
 
   return (
@@ -336,20 +360,20 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-            <motion.button
-              className={cn(
-                "flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 shadow-lg",
-                view360Active 
-                  ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white" 
-                  : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
-              )}
-              whileHover={{ scale: 1.05, y: -3, boxShadow: "0px 10px 20px rgba(0,0,0,0.2)" }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggle360View}
-            >
-              <RotateCw className={cn("w-5 h-5", view360Active && "animate-spin")} />
-              {view360Active ? "Exit 360°" : "View 360° (Recommended)"}
-            </motion.button>
+              <motion.button
+                className={cn(
+                  "flex items-center justify-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 shadow-lg",
+                  view360Active 
+                    ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white" 
+                    : "bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
+                )}
+                whileHover={{ scale: 1.05, y: -3, boxShadow: "0px 10px 20px rgba(0,0,0,0.2)" }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggle360View}
+              >
+                <RotateCw className={cn("w-5 h-5", view360Active && "animate-spin")} />
+                {view360Active ? "Exit 360°" : "View 360° (Recommended)"}
+              </motion.button>
 
               <div className={cn("grid grid-cols-4 gap-2 flex-1", view360Active && "opacity-50 pointer-events-none")}>
                 {productImages.map((img, idx) => (
@@ -574,6 +598,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                 className="flex-1 px-5 py-3 rounded-xl font-semibold relative overflow-hidden bg-primary text-white shadow"
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={handleBuyNow}
               >
                 <span className="relative">Buy Now</span>
               </motion.button>
