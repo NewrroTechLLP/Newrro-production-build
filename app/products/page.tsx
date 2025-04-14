@@ -44,7 +44,7 @@ const initialProducts: Product[] = [
       "Water & Dustproof LiDAR Sensor",
       "Dual-Band WiFi",
     ],
-    badge: "Best Seller",
+    badge: "Best Seller - 10% Off",
     view360Link: "/assets/product_models/Arjuna.glb",
 
   },
@@ -69,7 +69,7 @@ const initialProducts: Product[] = [
       "Obstacle Avoidance & Line Following",
       "Voice & Color Recognition",
     ],
-    badge: "New",
+    badge: "New Arrival - 10% Off",
     view360Link: "/assets/product_models/Babru.glb",
     // If needed, add rotationOffset: [x, y, z] e.g. [0, Math.PI/2, 0]
     rotationOffset: [0, 4.2, 0],
@@ -119,7 +119,7 @@ const initialProducts: Product[] = [
       "Real-Time Monitoring",
       "Modular Expandability",
     ],
-    badge: "Enterprise",
+    badge: "Limited Edition - 10% Off",
     view360Link: "/assets/product_models/nrc_mini.glb",
     rotationOffset: [0, Math.PI, 0], // Default offset; adjust as needed
   },
@@ -145,6 +145,8 @@ const initialProducts: Product[] = [
     ],
     view360Link: "/assets/product_models/BRC.glb",
     rotationOffset: [0, Math.PI, 0],
+    badge: "Top Rated - 10% Off",
+
   },
 ];
 
