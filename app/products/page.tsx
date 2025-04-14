@@ -104,7 +104,12 @@ const initialProducts: Product[] = [
     name: "JT-2",
     category: "Autonomous Robots",
     price: 12000,
-    image: "https://picsum.photos/seed/jt2/400/300",
+    image: "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/nrc0.png",
+    galleryImages: [
+      "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/nrc1.png",
+      "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/nrc2.png",
+      "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/nrc3.png",
+    ],
     description:
       "Newrro JT-2 is a ROS 2-based autonomous mobile robot for research and learning. It features voice & WiFi control, smart motor controllers, and modular expandability.",
     features: [
@@ -123,7 +128,12 @@ const initialProducts: Product[] = [
     name: "Robotics Learning Kit (ESP32)",
     category: "Educational Robotics",
     price: 7000,
-    image: "https://picsum.photos/seed/esp32/400/300",
+    image: "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br0.png?raw=true",
+    galleryImages: [
+      "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br1.png?raw=true",
+      "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br2.png?raw=true",
+      "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br3.png?raw=true",
+    ],
     description:
       "Newrro Robotics Learning Kit powered by an advanced ESP32 robot controller. It offers wireless connectivity, a modular design, and AI-powered features for STEM education.",
     features: [
