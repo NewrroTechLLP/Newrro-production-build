@@ -128,11 +128,11 @@ const initialProducts: Product[] = [
     name: "Robotics Learning Kit (ESP32)",
     category: "Educational Robotics",
     price: 7000,
-    image: "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br0.png?raw=true",
+    image: "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br3.png?raw=true",
     galleryImages: [
       "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br1.png?raw=true",
       "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br2.png?raw=true",
-      "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br3.png?raw=true",
+      "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/product/br0.png?raw=true",
     ],
     description:
       "Newrro Robotics Learning Kit powered by an advanced ESP32 robot controller. It offers wireless connectivity, a modular design, and AI-powered features for STEM education.",
