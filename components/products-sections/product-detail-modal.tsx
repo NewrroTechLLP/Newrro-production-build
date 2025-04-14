@@ -157,7 +157,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
     setIsZoomed(false);
   };
 
-  const discountPrice = (product.price * 0.87).toFixed(2);
+  const discountPrice = (product.price * 0.90).toFixed(2);
 
   // Function to create WhatsApp order message
   const createWhatsAppOrderMessage = (isBuyNow = false) => {
@@ -448,7 +448,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                   &#8377;{product.price.toFixed(2)}
                 </span>
                 <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
-                  SAVE 13%
+                  SAVE 10%
                 </span>
               </motion.div>
               <motion.p
