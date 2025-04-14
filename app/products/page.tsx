@@ -28,7 +28,7 @@ const initialProducts: Product[] = [
     id: 1,
     name: "Arjuna Edu Kit",
     category: "Educational Robotics",
-    price: 15000,
+    price: 150000,
     image: "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/work_gallery/R11.png?raw=true",
     galleryImages: [
       "https://github.com/ayushanand2003/Newrro-production-build/blob/main/public/assets/work_gallery/R2.png?raw=true",
@@ -52,7 +52,7 @@ const initialProducts: Product[] = [
     id: 2,
     name: "Babroo",
     category: "Robotics Kits",
-    price: 8000,
+    price: 35000,
     image: "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/b2.png",
     galleryImages: [
       "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/b3.png",
@@ -78,7 +78,7 @@ const initialProducts: Product[] = [
     id: 3,
     name: "Kush",
     category: "Educational Robotics",
-    price: 5000,
+    price: 15000,
     image: "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/k1.png",
     galleryImages: [
       "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/k2.png",
@@ -103,7 +103,7 @@ const initialProducts: Product[] = [
     id: 4,
     name: "JT-2",
     category: "Autonomous Robots",
-    price: 12000,
+    price: 28000,
     image: "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/nrc0.png",
     galleryImages: [
       "https://raw.githubusercontent.com/ayushanand2003/Newrro-production-build/refs/heads/main/public/assets/product/nrc1.png",

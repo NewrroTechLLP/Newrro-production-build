@@ -108,8 +108,8 @@ export function ProductGrid({ products }: ProductGridProps) {
                     <CardDescription>{product.category}</CardDescription>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="text-lg font-semibold">${product.price.toFixed(2)}</span>
-                    {product.badge === "Best Seller" && <span className="text-xs text-green-600">13% off</span>}
+                    <span className="text-lg font-semibold">&#8377;{product.price.toFixed(2)}</span>
+                    {/* {product.badge === "Best Seller" && <span className="text-xs text-green-600">13% off</span>} */}
                   </div>
                 </div>
                 <p className="text-muted-foreground mb-4 line-clamp-2">{product.description}</p>

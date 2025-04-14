@@ -162,7 +162,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
   // Function to create WhatsApp order message
   const createWhatsAppOrderMessage = (isBuyNow = false) => {
     const action = isBuyNow ? "Buy Now" : "Add to Cart";
-    const message = `Hi! I'm interested in ordering: ${product.name} (${selectedColor}) x${quantity} - $${discountPrice} each. Please assist me with my ${action} request.`;
+    const message = `Hi! I'm interested in ordering: ${product.name} (${selectedColor}) x${quantity} - Rs.${discountPrice} each. Please assist me with my ${action} request.`;
     return encodeURIComponent(message);
   };
 
@@ -442,10 +442,10 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                 animate={{ opacity: 1, y: 0 }}
               >
                 <span className="text-2xl sm:text-3xl font-bold text-primary">
-                  ${discountPrice}
+                  &#8377;{discountPrice}
                 </span>
                 <span className="text-sm sm:text-base line-through text-foreground/50">
-                  ${product.price.toFixed(2)}
+                  &#8377;{product.price.toFixed(2)}
                 </span>
                 <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
                   SAVE 13%
