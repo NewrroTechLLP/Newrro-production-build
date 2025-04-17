@@ -7,27 +7,27 @@ import Image from 'next/image';
 
 const team = [
   {
-    name: "Sarah Johnson",
+    name: "Newrro Team",
     role: "CEO & Founder",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400",
+    image: "https://www.newrro.in/favicon.svg",
     bio: "Visionary leader with 20+ years of industry experience",
   },
   {
-    name: "Michael Chen",
+    name: "Newrro Team",
     role: "Chief Technology Officer",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400",
+    image: "https://www.newrro.in/favicon.svg",
     bio: "Tech innovator specializing in emerging technologies",
   },
   {
-    name: "Emily Rodriguez",
+    name: "Newrro Team",
     role: "Design Director",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400",
+    image: "https://www.newrro.in/favicon.svg",
     bio: "Award-winning designer with a passion for user experience",
   },
   {
-    name: "David Kim",
+    name: "Newrro Team",
     role: "Head of Innovation",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
+    image: "https://www.newrro.in/favicon.svg",
     bio: "Leading breakthrough initiatives in emerging markets",
   },
 ];
