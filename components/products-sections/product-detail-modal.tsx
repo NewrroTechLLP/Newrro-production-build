@@ -162,7 +162,8 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
   // Function to create WhatsApp order message
   const createWhatsAppOrderMessage = (isBuyNow = false) => {
     const action = isBuyNow ? "Buy Now" : "Add to Cart";
-    const message = `Hi! I'm interested in ordering: ${product.name} (${selectedColor}) x${quantity} - Rs.${discountPrice} each. Please assist me with my ${action} request.`;
+    // const message = `Hi! I'm interested in ordering: ${product.name} (${selectedColor}) x${quantity} - Rs.${discountPrice} each. Please assist me with my ${action} request.`;
+    const message = `Hi! I'm interested in ordering: ${product.name} (${selectedColor}) x${quantity} each. Please assist me with my ${action} request.`;
     return encodeURIComponent(message);
   };
 
@@ -441,15 +442,15 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <span className="text-2xl sm:text-3xl font-bold text-primary">
+                {/* <span className="text-2xl sm:text-3xl font-bold text-primary">
                   &#8377;{discountPrice}
-                </span>
-                <span className="text-sm sm:text-base line-through text-foreground/50">
+                </span> */}
+                {/* <span className="text-sm sm:text-base line-through text-foreground/50">
                   &#8377;{product.price.toFixed(2)}
                 </span>
                 <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
                   SAVE 10%
-                </span>
+                </span> */}
               </motion.div>
               <motion.p
                 className="text-sm sm:text-base leading-relaxed text-foreground"
@@ -600,7 +601,7 @@ function ProductDetailModalContent({ product, onClose }: { product: Product; onC
                 whileTap={{ scale: 0.98 }}
                 onClick={handleBuyNow}
               >
-                <span className="relative">Buy Now</span>
+                <span className="relative">Get Quotation </span>
               </motion.button>
               <motion.button
                 className="w-12 h-12 rounded-xl flex items-center justify-center bg-white/20 border border-white/20 shadow backdrop-blur-md"
