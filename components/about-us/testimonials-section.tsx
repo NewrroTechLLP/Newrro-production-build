@@ -5,10 +5,6 @@ import { Quote } from "lucide-react";
 const testimonials = [
     { quote: "Newrro's ARJUNA kit gave our students real-world ROS experience—unmatched by any other program.", author: "Prof. A. Kumar, BMSCE" },
     { quote: "Our lab setup was turnkey, on-time, and perfectly tailored to our curriculum.", author: "Dr. S. Rao, Reva University" },
-    {
-        quote: "The team was fantastic. Their &quot;can do&quot; attitude and &quot;customer first&quot; approach made all the difference.",
-        author: "John Doe, Tech Innovators Inc."
-    },
 ];
 
 export function TestimonialsSection() {

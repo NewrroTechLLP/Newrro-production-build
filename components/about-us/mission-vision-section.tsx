@@ -9,8 +9,9 @@ export function MissionVisionSection() {
   return (
     <div className="relative overflow-hidden bg-slate-50/50 py-20 sm:py-24">
       {/* Subtle background pattern */}
-      <BackgroundLines className="absolute inset-0 opacity-5" />
-      
+      <BackgroundLines className="absolute inset-0 opacity-10">
+                  <></>
+      </BackgroundLines>
       <div className="container relative mx-auto px-4">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {/* Mission Card */}
