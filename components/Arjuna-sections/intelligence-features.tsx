@@ -1,4 +1,3 @@
-// components/Arjuna-sections/intelligence-features.tsx
 "use client";
 
 import { motion } from "framer-motion";
@@ -8,141 +7,163 @@ import { cn } from "@/lib/utils";
 /**
  * pickIcon(...)
  * - runtime-safe helper that returns the first available icon component exported by lucide-react.
- * - Accepts candidate names (case-sensitive). Returns a functional React component.
- * - Falls back to Zap icon or a tiny no-op component if nothing matches.
  */
 function pickIcon(...names: string[]) {
   for (const n of names) {
-    // dynamic access of exports from lucide-react (case-sensitive)
     // @ts-ignore
     const Icon = (LucideIcons as any)[n];
     if (Icon) return Icon;
   }
-  // guaranteed fallback icons that are almost always present
+  // fallback
   // @ts-ignore
-  const fallback = (LucideIcons as any).Zap || (LucideIcons as any).Icon || null;
-  if (fallback) return fallback;
-  // ultimate fallback: tiny noop component
-  return () => null;
+  const fallback = (LucideIcons as any).Zap || (() => null);
+  return fallback;
 }
 
-/* Choose likely candidate names for each semantic icon.
-   These lists attempt to cover variations across lucide-react versions.
-   If your installed lucide-react exports a different name, add it to the candidate list.
-*/
-const IconZap = pickIcon("Zap", "ZapOff", "Bolt");
-const IconRouter = pickIcon("Router", "HardDrive", "Server", "Network");
-const IconProcessor = pickIcon("Processor", "Cpu", "Chip", "Microchip", "CpuChip", "ChipIcon");
-const IconScan = pickIcon("Scan", "Scanner", "ScanFace", "ScanText", "ScanCloud");
-const IconCamera = pickIcon("Camera", "CameraOff", "VideoCamera", "CameraIcon");
-const IconCompass = pickIcon("Compass", "Navigation", "CompassDot");
-const IconBot = pickIcon("Bot", "Robot", "Robot2", "FaceId");
-const IconMap = pickIcon("Map", "MapPin", "Map2");
-const IconSignal = pickIcon("Signal", "Wifi", "WifiOff", "Broadcast");
-const IconMonitorDot = pickIcon("MonitorDot", "Monitor", "MonitorSpeaker", "Tv");
+/* Icon candidates */
+const IconZap = pickIcon("Zap", "Bolt");
+const IconRouter = pickIcon("Router", "Server", "Network");
+const IconProcessor = pickIcon("Processor", "Cpu", "Chip", "Microchip");
+const IconScan = pickIcon("Scan", "Scanner");
+const IconCamera = pickIcon("Camera", "CameraIcon");
+const IconCompass = pickIcon("Compass", "Navigation");
+const IconBot = pickIcon("Bot", "Robot");
+const IconMap = pickIcon("Map", "MapPin");
+const IconSignal = pickIcon("Signal", "Broadcast");
+const IconMonitorDot = pickIcon("MonitorDot", "Monitor", "Tv");
 const IconMic = pickIcon("Mic", "Mic2", "Microphone");
+const IconChip = pickIcon("Chip", "Microchip", "CpuChip");
+const IconCog = pickIcon("Cog", "Settings", "Gear");
+const IconLayers = pickIcon("Layers", "Layers2", "Stack");
 
+/* --- Intelligence Capabilities Section Data --- */
 const intelligentCapabilities = [
-  // --- AI Core & Software Architecture ---
+  // ---------- AI Core ----------
   {
     icon: <IconRouter className="w-10 h-10" />,
     title: "ROS2 Native Architecture",
     description:
-      "Built entirely on ROS2 (Humble/Foxy) for real-time control, communication (Nodes, Topics, Actions), and easy integration of distributed AI pipelines.",
+      "Built entirely on ROS2 (Humble/Foxy) for real-time control, communication (Nodes, Topics, Actions), and scalable multi-component integration.",
     ai_connection:
-      "ROS2 is the communication backbone for AI modules, enabling distributed decision-making and neural-network-based control across CPU/GPU.",
+      "ROS2 enables smooth AI module orchestration, distributed computing, and low-latency sensor sharing.",
     theme: "AI Core & Architecture",
   },
   {
     icon: <IconProcessor className="w-10 h-10" />,
     title: "High-Performance Compute (NVIDIA Jetson)",
     description:
-      "Supports GPU acceleration (Nvidia Jetson Orin Nano, Nano, Xavier) for visual SLAM, depth processing, and real-time navigation and AI inference.",
+      "Runs GPU-accelerated vision, SLAM, and inference workloads using Jetson Orin, Xavier, or Nano platforms.",
     ai_connection:
-      "Smooth execution of deep learning algorithms for path planning, semantic segmentation, and advanced pose estimation using GPU-accelerated inference.",
+      "Accelerates deep learning models for motion planning, perception, and 3D environment understanding.",
     theme: "AI Core & Architecture",
   },
 
-  // --- Advanced Perception & Vision ---
+  // ---------- Perception & Vision ----------
   {
     icon: <IconCamera className="w-10 h-10" />,
     title: "3D Spatial AI Perception (OAK-D Lite)",
     description:
-      "Features the OAK-D Lite camera for stereo depth sensing, RGB-D fused data, and on-device AI inference using the Intel Myriad X VPU and OpenVINO.",
+      "Stereo depth, RGB-D fusion, and FPGA-accelerated inference using the OAK-D camera.",
     ai_connection:
-      "Enables depth-aware perception, 3D bounding boxes, and high-quality data capture essential for sophisticated environmental understanding.",
+      "Provides spatial awareness needed for 3D navigation, tracking, and AI reasoning.",
     theme: "Perception & Vision",
   },
   {
     icon: <IconCompass className="w-10 h-10" />,
     title: "Visual SLAM (V-SLAM) Capability",
     description:
-      "Performs feature-based (ORB-SLAM) and RGB-D SLAM for real-time pose estimation, loop closure, and map optimization using high-quality visual data.",
+      "Real-time V-SLAM using ORB-SLAM and RGB-D SLAM approaches for consistent localization.",
     ai_connection:
-      "Deploys AI-enhanced visual odometry and place recognition models for intelligent navigation in complex, unstructured environments.",
+      "AI-enhanced loop closure and feature matching improves long-term navigation fidelity.",
     theme: "Perception & Vision",
   },
   {
     icon: <IconBot className="w-10 h-10" />,
     title: "AI-Driven Perception & Tracking",
     description:
-      "Runs on-device AI tasks like real-time object detection (YOLO, MobileNet), semantic segmentation, human tracking, and gesture recognition at the edge.",
+      "Performs object detection, segmentation, and multi-target tracking at edge-level speeds.",
     ai_connection:
-      "Allows ARJUNA to navigate intelligently, avoid humans/moving obstacles, and perform complex behavior-based tasks based on scene understanding.",
+      "Allows ARJUNA to understand dynamic environments with AI-assisted behaviour generation.",
     theme: "Perception & Vision",
   },
 
-  // --- Autonomy & Fusion ---
+  // ---------- Autonomy & Fusion ----------
   {
     icon: <IconScan className="w-10 h-10" />,
     title: "Multi-Sensor Fusion (EKF)",
     description:
-      "Utilizes EKF (Extended Kalman Filter) within ROS's `robot_localization` package to fuse data from IMU, Wheel Encoders, LiDAR, and Visual Odometry for stable, low-drift odometry.",
+      "Fuses IMU, LiDAR, wheel encoders, and VO data using EKF for reliable odometry.",
     ai_connection:
-      "Provides stable foundational odometry, crucial for accurate long-term localization and improving system reliability against sensor noise.",
+      "Noise suppression and bias compensation ensure stable state estimates.",
     theme: "Autonomy & Fusion",
   },
   {
     icon: <IconMap className="w-10 h-10" />,
     title: "Nav2 Navigation Stack Support",
     description:
-      "Full support for the ROS2 Nav2 stack, covering global and local path planning, costmap generation, dynamic obstacle avoidance, and behavior trees for robust action execution.",
+      "Industry-grade path planning, obstacle avoidance, costmaps, and behaviour trees.",
     ai_connection:
-      "The modular Nav2 structure allows advanced users to integrate AI-based planners (e.g., Deep Reinforcement Learning) as custom plugins.",
+      "Supports AI-integrated planners, RL-based local planners, and semantic navigation.",
     theme: "Autonomy & Fusion",
   },
   {
     icon: <IconSignal className="w-10 h-10" />,
     title: "Modular & Expandable Hardware",
     description:
-      "Features GPIO, I2C, and UART expansion points for easy mounting of extra sensors (UWB, Radar) or custom payloads, ideal for multi-robot research.",
+      "GPIO, I2C, UART, and CAN interfaces for additional sensors and components.",
     ai_connection:
-      "Supports integrating additional neural sensors and custom control electronics needed for complex, multi-robot AI experiments and swarm robotics.",
+      "Allows integration of AI-powered payloads like UWB, radar, and custom sensing modules.",
     theme: "Autonomy & Fusion",
   },
 
-  // --- Interaction & Usability ---
+  // ---------- Interaction ----------
   {
     icon: <IconMonitorDot className="w-10 h-10" />,
     title: "Web-Based Control Dashboard",
     description:
-      "Provides a web-based interface for real-time camera streaming, teleoperation controls, WiFi-based monitoring, and system diagnostics accessible from any browser.",
+      "Live telemetry, video streaming, and remote teleoperation accessible from any browser.",
     ai_connection:
-      "Offers a seamless interface for remote operation and visualization, essential for debugging complex AI models and streaming data to the cloud.",
+      "Supports cloud-based AI monitoring, fleet dashboards, and remote experimentation.",
     theme: "Interaction & Usability",
   },
   {
     icon: <IconMic className="w-10 h-10" />,
     title: "Voice/Audio Interaction",
     description:
-      "Equipped with speakers and microphones to enable voice commands, sound localization, and high-fidelity auditory feedback for Human-Robot Interaction (HRI) studies.",
+      "Supports speech commands, sound localization, and human-robot interaction pipelines.",
     ai_connection:
-      "Supports deployment of custom voice recognition models and allows for natural language command processing on the edge.",
+      "Integrates NLP and custom speech-to-intent models for natural interaction.",
     theme: "Interaction & Usability",
+  },
+
+  // ==========================================================
+  // 🔥 NEW CARD 1 — ROS2 + Components
+  // ==========================================================
+  {
+    icon: <IconCog className="w-10 h-10" />,
+    title: "Modular ROS2 Node Architecture",
+    description:
+      "ARJUNA’s brain is built around a modular ROS2 node system—separating perception, planning, localization, control, and diagnostics into independent components.",
+    ai_connection:
+      "Allows AI models to be swapped, upgraded, or run in parallel without rewriting the robot’s entire software stack.",
+    theme: "AI Core & Architecture",
+  },
+
+  // ==========================================================
+  // 🔥 NEW CARD 2 — COMPONENT PIPELINE + AI
+  // ==========================================================
+  {
+    icon: <IconLayers className="w-10 h-10" />,
+    title: "Hardware-Accelerated Perception Pipeline",
+    description:
+      "LiDAR, IMU, depth camera, and wheel encoders feed into a multi-layer perception pipeline optimized for Jetson GPUs and DepthAI accelerators.",
+    ai_connection:
+      "Powers complex tasks like 3D reconstruction, semantic mapping, dynamic obstacle tracking, and motion understanding.",
+    theme: "Perception & Vision",
   },
 ];
 
-// Helper to define Tailwind colors based on the feature theme
+/* Theme styling helper */
 const getThemeStyles = (theme: string) => {
   switch (theme) {
     case "AI Core & Architecture":
@@ -162,7 +183,7 @@ export function IntelligenceFeatures() {
   return (
     <section className="py-20 bg-gray-50 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -174,11 +195,11 @@ export function IntelligenceFeatures() {
             AI-Driven Capabilities
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            ARJUNA combines best-in-class hardware and a <strong>ROS2-native architecture</strong> to deliver cutting-edge autonomy, perception, and AI performance.
+            ARJUNA combines best-in-class hardware with a <strong>ROS2-native architecture</strong> to deliver cutting-edge autonomy.
           </p>
         </motion.div>
 
-        {/* Features Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {intelligentCapabilities.map((feature, index) => {
             const styles = getThemeStyles(feature.theme);
@@ -201,7 +222,6 @@ export function IntelligenceFeatures() {
                   )}
                 >
                   <div className="relative z-10">
-                    {/* Icon and Title */}
                     <div className={cn("mb-4 flex items-center", styles.iconColor)}>
                       {feature.icon}
                       <h3 className="text-xl font-bold ml-4 text-gray-900 group-hover:text-black">
@@ -209,10 +229,8 @@ export function IntelligenceFeatures() {
                       </h3>
                     </div>
 
-                    {/* Description */}
                     <p className="text-base mb-4 text-gray-700">{feature.description}</p>
 
-                    {/* AI Connection Highlight */}
                     <div className="mt-4 pt-3 border-t border-dashed border-gray-300">
                       <span className="font-semibold text-sm text-gray-500 block">AI Connection:</span>
                       <p className="text-sm italic text-gray-600">{feature.ai_connection}</p>
