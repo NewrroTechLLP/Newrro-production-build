@@ -11,7 +11,7 @@ const IconBox = ({ className = "" }) => (
 
 const features = [
   {
-    title: "Hybrid Compute (ESP32 + Pico)",
+    title: "Hybrid Compute (ESP32/STM32 + Pico)",
     desc: "Dual-core performance for real-time control, modular expansion and edge processing.",
     icon: IconBox,
   },
