@@ -56,7 +56,7 @@ export function RICKHeroSection() {
               transition={{ delay: 0.12, duration: 0.6 }}
               className="text-lg md:text-xl text-gray-700 mb-6 max-w-2xl"
             >
-              A hybrid ESP32 + Pico controller optimized for education and research — powerful motor drivers,
+              A hybrid ESP32/STM32 + Pico controller optimized for education and research — powerful motor drivers,
               modular sensor support and cloud-ready connectivity. Now with the familiar Arjuna look and feel.
             </motion.p>
 
@@ -83,7 +83,7 @@ export function RICKHeroSection() {
             {/* small feature badges */}
             <div className="mt-6 flex flex-wrap gap-3">
               <span className="inline-flex items-center text-sm font-medium px-3 py-1 rounded-full bg-white/60 border" style={{ backdropFilter: "blur(4px)" }}>
-                ESP32 + Pico
+                ESP32/STM32 + Pico
               </span>
               <span className="inline-flex items-center text-sm font-medium px-3 py-1 rounded-full bg-white/60 border" style={{ backdropFilter: "blur(4px)" }}>
                 12V Motor Driver
