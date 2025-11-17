@@ -1,11 +1,12 @@
-// IntelligenceFeatures.tsx
+// IntelligenceFeaturesSection.tsx
 'use client';
 
 import { motion } from "framer-motion";
 import { 
   Zap, // AI Core
   Router, // ROS2 Architecture
-  Gpu, // High-Performance Compute
+  // 🛑 FIX: Replaced Gpu with Chip
+  Chip, // High-Performance Compute 
   Scan, // LiDAR/IMU Fusion
   Camera, // Depth Camera (OAK-D)
   Compass, // Visual SLAM
@@ -28,7 +29,8 @@ const intelligentCapabilities = [
     theme: "AI Core & Architecture"
   },
   {
-    icon: <Gpu className="w-10 h-10" />,
+    // 🛑 FIX: Used Chip icon here
+    icon: <Chip className="w-10 h-10" />,
     title: "High-Performance Compute (NVIDIA Jetson)",
     description: "Supports GPU acceleration (Nvidia Jetson Orin Nano, Nano, Xavier) for visual SLAM, depth processing, and real-time navigation and AI inference.",
     ai_connection: "Smooth execution of deep learning algorithms for path planning, semantic segmentation, and advanced pose estimation using GPU-accelerated inference.",
