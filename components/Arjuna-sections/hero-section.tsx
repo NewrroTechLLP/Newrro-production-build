@@ -66,7 +66,7 @@ export function HeroSection() {
             <ContainerScroll>
               {/* Card Component */}
               <Card
-                videoSrc="v1.mp4"
+                videoSrc="https://youtu.be/NC1jG-OVbaE"
                 responsiveScale={responsiveScale}
               />
             </ContainerScroll>
