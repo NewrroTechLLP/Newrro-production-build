@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const specs = [
-  { k: "Compute", v: "ESP32 + Raspberry Pi Pico hybrid system" },
+  { k: "Compute", v: "ESP32/STM32 + Raspberry Pi Pico hybrid system" },
   { k: "Battery", v: "12V 5000mAh Li-ion (BMS included)" },
   { k: "Motor Driver", v: "7–24V, 6A/channel, encoder-compatible" },
   { k: "I/O Interfaces", v: "GPIO, I2C, UART, SPI, USB, PWM" },
