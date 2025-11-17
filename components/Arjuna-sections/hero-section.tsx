@@ -64,12 +64,26 @@ export function HeroSection() {
         >
           <div className="flex flex-col overflow-hidden">
             <ContainerScroll>
-              {/* Card Component */}
-              <Card
-                videoSrc="https://youtu.be/NC1jG-OVbaE"
-                responsiveScale={responsiveScale}
-              />
+              <div className="relative w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+                <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                  <iframe
+                    src="https://www.youtube.com/embed/NC1jG-OVbaE?rel=0"
+                    title="Arjuna Demo Video"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      border: "0",
+                    }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
             </ContainerScroll>
+
           </div>
         </motion.div>
 
